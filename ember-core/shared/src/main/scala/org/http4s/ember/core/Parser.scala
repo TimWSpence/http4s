@@ -323,7 +323,7 @@ private[ember] object Parser {
             maxHeaderSize,
             HeaderP.ParserState.initial,
           )((state, ibuffer) => HeaderP.parse(ibuffer, maxHeaderSize, state))(_.idx)
-          //We've already consumed data to parse the prelude so empty actually means end of stream
+          // We've already consumed data to parse the prelude so empty actually means end of stream
           .adaptError { case _: EmberException.EmptyStream =>
             EmberException.ReachedEndOfStream()
           }
@@ -383,7 +383,7 @@ private[ember] object Parser {
             maxHeaderSize,
             HeaderP.ParserState.initial,
           )((state, ibuffer) => HeaderP.parse(ibuffer, maxHeaderSize, state))(_.idx)
-          //We've already consumed data to parse the prelude so empty actually means end of stream
+          // We've already consumed data to parse the prelude so empty actually means end of stream
           .adaptError { case _: EmberException.EmptyStream =>
             EmberException.ReachedEndOfStream()
           }
