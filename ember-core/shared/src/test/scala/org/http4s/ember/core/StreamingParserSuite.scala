@@ -195,6 +195,14 @@ class StreamingParserSuite extends Http4sSuite {
 
   test("raise end of stream for response") {
     PropF.forAllNoShrinkF(Fixtures.genResponse(min = 3)) { segments =>
+      val segments: List[List[Byte]] = List(
+        List(80),
+        List(79, 83, 84, 32, 47, 102, 111, 111, 32, 72, 84, 84, 80, 47, 49, 46, 49, 13, 10),
+        List(67, 111, 110, 116, 101, 110, 116, 45, 84, 121, 112, 101, 58, 32, 116, 101, 120, 116,
+          47, 112, 108, 97, 105, 110, 13, 10, 67, 111, 110, 116, 101, 110, 116, 45, 76, 101, 110,
+          103, 116, 104, 58, 32, 53, 13, 10, 13, 10, 104, 101, 108, 108, 111),
+      )
+
       (for {
         read <- Helpers.taking[IO, Byte](segments.dropRight(1))
         result <- Parser.Response.parser(Int.MaxValue)(Array.emptyByteArray, read)
