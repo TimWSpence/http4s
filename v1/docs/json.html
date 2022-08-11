@@ -149,8 +149,8 @@
         <li class="level2"><a href="testing.html">Testing</a></li>
         <li class="level2"><a href="uri.html">URI Handling</a></li>
         <li class="level2"><a href="deployment.html">Deployment</a></li>
-        <li class="level2"><a href="error-handling.html">Error Handling</a></li>
         <li class="level2"><a href="methods.html">HTTP Methods</a></li>
+        <li class="level2"><a href="error-handling.html">Error Handling</a></li>
       </ul>
 
       <ul class="nav-list">
@@ -158,15 +158,47 @@
         
           <li class="level2"><a href="https://github.com/http4s/blaze">blaze</a></li>
         
-          <li class="level2"><a href="https://jdk-http-client.http4s.org/">http4s-jdk-http-client</a></li>
+          <li class="level2"><a href="https://github.com/http4s/http4s-armeria">http4s-armeria</a></li>
+        
+          <li class="level2"><a href="https://github.com/http4s/http4s-async-http-client">http4s-async-http-client</a></li>
         
           <li class="level2"><a href="https://http4s.github.io/http4s-dom/">http4s-dom</a></li>
         
-          <li class="level2"><a href="https://github.com/http4s/rho">rho</a></li>
+          <li class="level2"><a href="https://http4s.github.io/http4s-finagle/docs/">http4s-finagle</a></li>
+        
+          <li class="level2"><a href="https://jdk-http-client.http4s.org/">http4s-jdk-http-client</a></li>
+        
+          <li class="level2"><a href="https://github.com/http4s/http4s-jetty/">http4s-jetty</a></li>
+        
+          <li class="level2"><a href="https://github.com/http4s/http4s-netty/">http4s-netty</a></li>
+        
+          <li class="level2"><a href="https://github.com/http4s/http4s-okhttp-client/">http4s-okhttp-client</a></li>
+        
+          <li class="level2"><a href="https://http4s.github.io/http4s-servlet/">http4s-servlet</a></li>
+        
+          <li class="level2"><a href="https://github.com/http4s/http4s-tomcat/">http4s-tomcat</a></li>
+        
+          <li class="level2"><a href="https://github.com/http4s/rho/">rho</a></li>
+        
+          <li class="level2"><a href="https://github.com/http4s/http4s-boopickle/">http4s-boopickle</a></li>
+        
+          <li class="level2"><a href="https://github.com/http4s/http4s-fabric/">http4s-fabric</a></li>
+        
+          <li class="level2"><a href="https://github.com/http4s/http4s-play-json/">http4s-play-json</a></li>
+        
+          <li class="level2"><a href="https://http4s.github.io/http4s-scala-xml/">http4s-scala-xml</a></li>
+        
+          <li class="level2"><a href="https://github.com/http4s/http4s-scala-xml-1/">http4s-scala-xml-1</a></li>
+        
+          <li class="level2"><a href="https://github.com/http4s/http4s-scalatags/">http4s-scalatags</a></li>
+        
+          <li class="level2"><a href="https://http4s.github.io/http4s-session/">http4s-session</a></li>
+        
+          <li class="level2"><a href="https://github.com/http4s/http4s-twirl/">http4s-twirl</a></li>
         
           <li class="level2"><a href="https://http4s.github.io/sbt-http4s-org/">sbt-http4s-org</a></li>
         
-          <li class="level2"><a href="https://github.com/typelevel/feral">feral</a></li>
+          <li class="level2"><a href="https://github.com/typelevel/feral/">feral</a></li>
         
       </ul>
 
@@ -208,9 +240,9 @@
 </span><span class="identifier">libraryDependencies</span><span> ++= </span><span class="type-name">Seq</span><span>(
   </span><span class="string-literal">&quot;org.http4s&quot;</span><span> %% </span><span class="string-literal">&quot;http4s-circe&quot;</span><span> % </span><span class="identifier">http4sVersion</span><span>,
   </span><span class="comment">// Optional for auto-derivation of JSON codecs
-</span><span>  </span><span class="string-literal">&quot;io.circe&quot;</span><span> %% </span><span class="string-literal">&quot;circe-generic&quot;</span><span> % </span><span class="string-literal">&quot;0.15.0-M1&quot;</span><span>,
+</span><span>  </span><span class="string-literal">&quot;io.circe&quot;</span><span> %% </span><span class="string-literal">&quot;circe-generic&quot;</span><span> % </span><span class="string-literal">&quot;0.14.2&quot;</span><span>,
   </span><span class="comment">// Optional for string interpolation to JSON model
-</span><span>  </span><span class="string-literal">&quot;io.circe&quot;</span><span> %% </span><span class="string-literal">&quot;circe-literal&quot;</span><span> % </span><span class="string-literal">&quot;0.15.0-M1&quot;</span><span>
+</span><span>  </span><span class="string-literal">&quot;io.circe&quot;</span><span> %% </span><span class="string-literal">&quot;circe-literal&quot;</span><span> % </span><span class="string-literal">&quot;0.14.2&quot;</span><span>
 )
 
 </span><span class="identifier">addCompilerPlugin</span><span>(</span><span class="string-literal">&quot;org.scalamacros&quot;</span><span> % </span><span class="string-literal">&quot;paradise&quot;</span><span> % </span><span class="string-literal">&quot;2.1.0&quot;</span><span> </span><span class="identifier">cross</span><span> </span><span class="type-name">CrossVersion</span><span>.</span><span class="identifier">full</span><span>)</span></code></pre>
@@ -226,6 +258,10 @@
 </span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">http4s</span><span>.</span><span class="identifier">_</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">http4s</span><span>.</span><span class="identifier">dsl</span><span>.</span><span class="identifier">io</span><span>.</span><span class="identifier">_</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">http4s</span><span>.</span><span class="identifier">implicits</span><span>.</span><span class="identifier">_</span></code></pre>
+        <div class="callout info">
+          <i class="icofont-laika">&#xef4e;</i>
+          <p>Under some setup options (we saw this in Scala 3.1.2 but not in 3.1.0), running <code>import io.circe._</code> might give you an error of <code>-- [E008] Not Found Error: value circe is not a member of io</code>. This means that <code>io</code> is shadowed from some other package. In that case, you should run <code>import _root_.io.circe._</code>, analogously for the other <code>circe</code> imports.</p>
+        </div>
         <p>Then the actual code:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">def</span><span> </span><span class="declaration-name">hello</span><span>(</span><span class="identifier">name</span><span>: </span><span class="type-name">String</span><span>): </span><span class="type-name">Json</span><span> =
   </span><span class="string-literal">json&quot;&quot;&quot;{&quot;hello&quot;: </span><span class="substitution">$name</span><span class="string-literal">}&quot;&quot;&quot;</span><span>
@@ -235,8 +271,8 @@
         <p>We now have a JSON value, but we don&#39;t have enough to render it:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="type-name">Ok</span><span>(</span><span class="identifier">greeting</span><span>).</span><span class="identifier">unsafeRunSync</span><span>()
 </span><span class="comment">// error: Cannot convert from io.circe.Json to an Entity, because no EntityEncoder[cats.effect.IO, io.circe.Json] instance could be found.
-// Ok(Hello(&quot;Alice&quot;).asJson).unsafeRunSync()
-// ^</span></code></pre>
+// Ok(greeting).unsafeRunSync()
+// ^^^^^^^^^^^^</span></code></pre>
         <p>To encode a Scala value of type <code>A</code> into an entity, we need an
         <code>EntityEncoder[A]</code> in scope.  The http4s-circe module includes a
         <code>org.http4s.circe</code> object, which gives us exactly this for an
@@ -248,13 +284,15 @@
 //    = HttpVersion(major = 1, minor = 1),
 //    = Headers(Content-Type: application/json, Content-Length: 17),
 //    = Strict(
-//     chunk = ByteBuffer(
-//       buf = java.nio.HeapByteBuffer[pos=0 lim=17 cap=18],
-//       offset = 0,
-//       size = 17
+//     bytes = Chunk(
+//       bytes = View(
+//         at = scodec.bits.ByteVector$AtArray@1f693381,
+//         offset = 0L,
+//         size = 17L
+//       )
 //     )
 //   ),
-//    = org.typelevel.vault.Vault@71508323
+//    = org.typelevel.vault.Vault@7ef1b231
 // )</span></code></pre>
         <p>The same <code>EntityEncoder[Json]</code> we use on server responses is also
         useful on client requests:</p>
@@ -272,13 +310,15 @@
 //    = HttpVersion(major = 1, minor = 1),
 //    = Headers(Content-Type: application/json, Content-Length: 16),
 //    = Strict(
-//     chunk = ByteBuffer(
-//       buf = java.nio.HeapByteBuffer[pos=0 lim=16 cap=17],
-//       offset = 0,
-//       size = 16
+//     bytes = Chunk(
+//       bytes = View(
+//         at = scodec.bits.ByteVector$AtArray@49021174,
+//         offset = 0L,
+//         size = 16L
+//       )
 //     )
 //   ),
-//    = org.typelevel.vault.Vault@41118f90
+//    = org.typelevel.vault.Vault@7be13739
 // )</span></code></pre>
         
         <h2 id="encoding-case-classes-as-json" class="section">Encoding case classes as JSON<a class="anchor-link right" href="#encoding-case-classes-as-json"><i class="icofont-laika">&#xef71;</i></a></h2>
@@ -297,7 +337,7 @@
   </span><span class="type-name">Encoder</span><span>.</span><span class="identifier">instance</span><span> { (</span><span class="identifier">hello</span><span>: </span><span class="type-name">Hello</span><span>) =&gt;
     </span><span class="string-literal">json&quot;&quot;&quot;{&quot;hello&quot;: </span><span class="substitution">${hello.name}</span><span class="string-literal">}&quot;&quot;&quot;</span><span>
   }
-</span><span class="comment">// HelloEncoder: Encoder[Hello] = io.circe.Encoder$$anon$3@63123166
+</span><span class="comment">// HelloEncoder: Encoder[Hello] = io.circe.Encoder$$anon$3@2d42f6ff
 </span><span>
 </span><span class="type-name">Hello</span><span>(</span><span class="string-literal">&quot;Alice&quot;</span><span>).</span><span class="identifier">asJson</span><span>
 </span><span class="comment">// res3: Json = JObject(value = object[hello -&gt; &quot;Alice&quot;])</span></code></pre>
@@ -315,13 +355,15 @@
 //    = HttpVersion(major = 1, minor = 1),
 //    = Headers(Content-Type: application/json, Content-Length: 17),
 //    = Strict(
-//     chunk = ByteBuffer(
-//       buf = java.nio.HeapByteBuffer[pos=0 lim=17 cap=18],
-//       offset = 0,
-//       size = 17
+//     bytes = Chunk(
+//       bytes = View(
+//         at = scodec.bits.ByteVector$AtArray@5e51a95c,
+//         offset = 0L,
+//         size = 17L
+//       )
 //     )
 //   ),
-//    = org.typelevel.vault.Vault@579ef48f
+//    = org.typelevel.vault.Vault@7819a53
 // )
 </span><span class="type-name">POST</span><span>(</span><span class="type-name">User</span><span>(</span><span class="string-literal">&quot;Bob&quot;</span><span>).</span><span class="identifier">asJson</span><span>, </span><span class="string-literal">uri&quot;/hello&quot;</span><span>)
 </span><span class="comment">// res6: Request[IO] = (
@@ -336,13 +378,15 @@
 //    = HttpVersion(major = 1, minor = 1),
 //    = Headers(Content-Type: application/json, Content-Length: 14),
 //    = Strict(
-//     chunk = ByteBuffer(
-//       buf = java.nio.HeapByteBuffer[pos=0 lim=14 cap=15],
-//       offset = 0,
-//       size = 14
+//     bytes = Chunk(
+//       bytes = View(
+//         at = scodec.bits.ByteVector$AtArray@75ab3d65,
+//         offset = 0L,
+//         size = 14L
+//       )
 //     )
 //   ),
-//    = org.typelevel.vault.Vault@22223cc4
+//    = org.typelevel.vault.Vault@4f64c821
 // )</span></code></pre>
         <p>If within some route we serve json only, we can use:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span>{
@@ -372,7 +416,7 @@
         the way from HTTP to your type <code>A</code>.  Specifically, <code>jsonOf[A]</code> takes
         an implicit <code>Decoder[A]</code> and makes a <code>EntityDecoder[A]</code>:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">implicit</span><span> </span><span class="keyword">val</span><span> </span><span class="identifier">userDecoder</span><span> = </span><span class="identifier">jsonOf</span><span>[</span><span class="type-name">IO</span><span>, </span><span class="type-name">User</span><span>]
-</span><span class="comment">// userDecoder: EntityDecoder[IO, User] = org.http4s.EntityDecoder$$anon$2@6f825a1f
+</span><span class="comment">// userDecoder: EntityDecoder[IO, User] = org.http4s.EntityDecoder$$anon$2@1cac93d8
 </span><span class="type-name">Ok</span><span>(</span><span class="string-literal">&quot;&quot;&quot;{&quot;name&quot;:&quot;Alice&quot;}&quot;&quot;&quot;</span><span>).</span><span class="identifier">flatMap</span><span>(</span><span class="identifier">_</span><span>.</span><span class="identifier">as</span><span>[</span><span class="type-name">User</span><span>]).</span><span class="identifier">unsafeRunSync</span><span>()
 </span><span class="comment">// res10: User = User(name = &quot;Alice&quot;)
 </span><span>
@@ -434,7 +478,7 @@
         <p>We start a server resource in the background.</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">val</span><span> </span><span class="identifier">shutdown</span><span> = </span><span class="identifier">server</span><span>.</span><span class="identifier">allocated</span><span>.</span><span class="identifier">unsafeRunSync</span><span>()</span><span class="number-literal">._2</span><span>
 </span><span class="comment">// shutdown: IO[Unit] = Uncancelable(
-//   body = cats.effect.IO$$Lambda$22620/1246021096@1d69df88,
+//   body = cats.effect.IO$$Lambda$21425/1502094968@17f4d11c,
 //   event = cats.effect.tracing.TracingEvent$StackTrace
 // )</span></code></pre>
         
@@ -444,24 +488,22 @@
 </span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">http4s</span><span>.</span><span class="identifier">ember</span><span>.</span><span class="identifier">client</span><span>.</span><span class="identifier">_</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">IO</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">io</span><span>.</span><span class="identifier">circe</span><span>.</span><span class="identifier">generic</span><span>.</span><span class="identifier">auto</span><span>.</span><span class="identifier">_</span><span>
-</span><span class="keyword">import</span><span> </span><span class="identifier">fs2</span><span>.</span><span class="type-name">Stream</span><span>
 
-</span><span class="comment">// Decode the Hello response
-</span><span class="keyword">def</span><span> </span><span class="declaration-name">helloClient</span><span>(</span><span class="identifier">name</span><span>: </span><span class="type-name">String</span><span>): </span><span class="type-name">Stream</span><span>[</span><span class="type-name">IO</span><span>, </span><span class="type-name">Hello</span><span>] = {
+</span><span class="keyword">def</span><span> </span><span class="declaration-name">helloClient</span><span>(</span><span class="identifier">name</span><span>: </span><span class="type-name">String</span><span>): </span><span class="type-name">IO</span><span>[</span><span class="type-name">Hello</span><span>] = {
   </span><span class="comment">// Encode a User request
 </span><span>  </span><span class="keyword">val</span><span> </span><span class="identifier">req</span><span> = </span><span class="type-name">POST</span><span>(</span><span class="type-name">User</span><span>(</span><span class="identifier">name</span><span>).</span><span class="identifier">asJson</span><span>, </span><span class="string-literal">uri&quot;http://localhost:8080/hello&quot;</span><span>)
   </span><span class="comment">// Create a client
-</span><span>  </span><span class="type-name">Stream</span><span>.</span><span class="identifier">resource</span><span>(</span><span class="type-name">EmberClientBuilder</span><span>.</span><span class="keyword">default</span><span>[</span><span class="type-name">IO</span><span>].</span><span class="identifier">build</span><span>).</span><span class="identifier">flatMap</span><span> { </span><span class="identifier">httpClient</span><span> =&gt;
+</span><span>  </span><span class="comment">// Note: this client is used exactly once, and discarded
+</span><span>  </span><span class="comment">// Ideally you should .build.use it once, and share it for multiple requests
+</span><span>  </span><span class="type-name">EmberClientBuilder</span><span>.</span><span class="keyword">default</span><span>[</span><span class="type-name">IO</span><span>].</span><span class="identifier">build</span><span>.</span><span class="identifier">use</span><span> { </span><span class="identifier">httpClient</span><span> =&gt;
     </span><span class="comment">// Decode a Hello response
-</span><span>    </span><span class="type-name">Stream</span><span>.</span><span class="identifier">eval</span><span>(</span><span class="identifier">httpClient</span><span>.</span><span class="identifier">expect</span><span>(</span><span class="identifier">req</span><span>)(</span><span class="identifier">jsonOf</span><span>[</span><span class="type-name">IO</span><span>, </span><span class="type-name">Hello</span><span>]))
+</span><span>    </span><span class="identifier">httpClient</span><span>.</span><span class="identifier">expect</span><span>(</span><span class="identifier">req</span><span>)(</span><span class="identifier">jsonOf</span><span>[</span><span class="type-name">IO</span><span>, </span><span class="type-name">Hello</span><span>])
   }
 }</span></code></pre>
         <p>Finally, we post <code>User(&quot;Alice&quot;)</code> to our Hello service and expect
         <code>Hello(&quot;Alice&quot;)</code> back:</p>
-        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">val</span><span> </span><span class="identifier">helloAlice</span><span> = </span><span class="identifier">helloClient</span><span>(</span><span class="string-literal">&quot;Alice&quot;</span><span>)
-</span><span class="comment">// helloAlice: Stream[IO, Hello] = Stream(..)
-</span><span class="identifier">helloAlice</span><span>.</span><span class="identifier">compile</span><span>.</span><span class="identifier">last</span><span>.</span><span class="identifier">unsafeRunSync</span><span>()
-</span><span class="comment">// res13: Option[Hello] = Some(value = Hello(greeting = &quot;Alice&quot;))</span></code></pre>
+        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">helloClient</span><span>(</span><span class="string-literal">&quot;Alice&quot;</span><span>).</span><span class="identifier">unsafeRunSync</span><span>()
+</span><span class="comment">// res13: Hello = Hello(greeting = &quot;Alice&quot;)</span></code></pre>
         <p>Finally, shut down our example server.</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">shutdown</span><span>.</span><span class="identifier">unsafeRunSync</span><span>()</span></code></pre>
 
