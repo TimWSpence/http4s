@@ -105,7 +105,7 @@ private[server] object ServerHelpers extends ServerHelpersPlatform {
                 true,
                 webSocketKey,
                 enableHttp2,
-              )
+              ).onFinalize(fin)
             )
         }
       })
