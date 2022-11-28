@@ -105,6 +105,7 @@ private[server] object ServerHelpers extends ServerHelpersPlatform {
                 true,
                 webSocketKey,
                 enableHttp2,
+                // this assumes that the finalizer won't do bad things if it is invoked twice
               ).onFinalize(fin)
             )
         }
@@ -281,10 +282,10 @@ private[server] object ServerHelpers extends ServerHelpersPlatform {
         }
       }
 
-    streams.parJoin(
-      maxConnections
-    ) // TODO: replace with forking after we fix serverResource upstream
-    // StreamForking.forking(streams, maxConnections)
+    // streams.parJoin(
+    //   maxConnections
+    // ) // TODO: replace with forking after we fix serverResource upstream
+    StreamForking.forking(streams, maxConnections)
   }
 
   // private[internal] def reachedEndError[F[_]: Sync](
