@@ -18,6 +18,7 @@ package org.http4s.ember.server.internal
 
 import cats._
 import cats.effect._
+import cats.effect.syntax.all._
 import cats.effect.kernel.Resource
 import cats.syntax.all._
 import com.comcast.ip4s._
@@ -74,33 +75,41 @@ private[server] object ServerHelpers extends ServerHelpersPlatform {
       logger: Logger[F],
       webSocketKey: Key[WebSocketContext[F]],
       enableHttp2: Boolean,
-  )(implicit F: Async[F]): Stream[F, Nothing] = {
-    val server: Stream[F, Socket[F]] =
-      Stream
-        .resource(sg.serverResource(host, Some(port), additionalSocketOptions))
-        .attempt
-        .evalTap(e => ready.complete(e.map(_._1)))
-        .rethrow
-        .flatMap(_._2)
-    serverInternal(
-      server,
-      httpApp: HttpApp[F],
-      tlsInfoOpt: Option[(TLSContext[F], TLSParameters)],
-      shutdown: Shutdown[F],
-      // Defaults
-      errorHandler: Throwable => F[Response[F]],
-      onWriteFailure: (Option[Request[F]], Response[F], Throwable) => F[Unit],
-      maxConnections: Int,
-      receiveBufferSize: Int,
-      maxHeaderSize: Int,
-      requestHeaderReceiveTimeout: Duration,
-      idleTimeout: Duration,
-      logger: Logger[F],
-      true,
-      webSocketKey,
-      enableHttp2,
-    )
-  }
+  )(implicit F: Async[F]): Stream[F, Nothing] =
+    Stream
+      .eval(F.uncancelable { poll =>
+        poll(
+          sg.serverResource(host, Some(port), additionalSocketOptions)
+            .allocated
+            .attempt
+            .flatTap(x => ready.complete(x.map(_._1._1)))
+            .rethrow
+        ).flatMap { case ((_, socks), fin) =>
+          // Close server socket when we receive shutdown signal
+          shutdown.signal.guarantee(fin).start >>
+            F.pure(
+              serverInternal(
+                socks,
+                httpApp: HttpApp[F],
+                tlsInfoOpt: Option[(TLSContext[F], TLSParameters)],
+                shutdown: Shutdown[F],
+                // Defaults
+                errorHandler: Throwable => F[Response[F]],
+                onWriteFailure: (Option[Request[F]], Response[F], Throwable) => F[Unit],
+                maxConnections: Int,
+                receiveBufferSize: Int,
+                maxHeaderSize: Int,
+                requestHeaderReceiveTimeout: Duration,
+                idleTimeout: Duration,
+                logger: Logger[F],
+                true,
+                webSocketKey,
+                enableHttp2,
+              )
+            )
+        }
+      })
+      .flatten
 
   def unixSocketServer[F[_]: Async](
       unixSockets: UnixSockets[F],
