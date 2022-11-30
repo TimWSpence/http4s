@@ -75,21 +75,24 @@ private[server] object ServerHelpers extends ServerHelpersPlatform {
       logger: Logger[F],
       webSocketKey: Key[WebSocketContext[F]],
       enableHttp2: Boolean,
-  )(implicit F: Async[F]): Stream[F, Nothing] =
-    Stream
-      .eval(F.uncancelable { poll =>
-        poll(
+  )(implicit F: Async[F]): Resource[F, Unit] =
+    // Lifecycle of connections is tied to the Stream[F, Socket[F]]
+    // so that must last beyond the lifetime of this returned Stream
+    // as StreamForking spawns fibers that might last longer
+    Resource.uncancelable[F, Unit] { _ =>
+      Resource
+        .eval(
           sg.serverResource(host, Some(port), additionalSocketOptions)
-            .allocated
             .attempt
-            .flatTap(x => ready.complete(x.map(_._1._1)))
+            .evalTap(e => ready.complete(e.map(_._1)))
             .rethrow
-        ).flatMap { case ((_, socks), fin) =>
-          // Close server socket when we receive shutdown signal
-          shutdown.signal.guarantee(fin).start >>
-            F.pure(
+            .allocated
+        )
+        .flatMap { case ((_, sockets), fin) =>
+          Resource
+            .eval(
               serverInternal(
-                socks,
+                sockets,
                 httpApp: HttpApp[F],
                 tlsInfoOpt: Option[(TLSContext[F], TLSParameters)],
                 shutdown: Shutdown[F],
@@ -105,12 +108,16 @@ private[server] object ServerHelpers extends ServerHelpersPlatform {
                 true,
                 webSocketKey,
                 enableHttp2,
-                // this assumes that the finalizer won't do bad things if it is invoked twice
-              ).onFinalize(fin)
+              ).compile.drain.start
             )
+            .flatMap { fiber =>
+              // Close server socket to stop accepting new connections
+              // Then wait for existing connections to terminate
+              Resource.onFinalize[F](fiber.join.void) >> Resource.onFinalize[F](fin)
+            }
+
         }
-      })
-      .flatten
+    }
 
   def unixSocketServer[F[_]: Async](
       unixSockets: UnixSockets[F],

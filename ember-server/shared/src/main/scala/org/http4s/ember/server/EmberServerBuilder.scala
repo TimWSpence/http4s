@@ -183,7 +183,6 @@ final class EmberServerBuilder[F[_]: Async: Network] private (
       shutdown <- Resource.eval(Shutdown[F](shutdownTimeout))
       wsBuilder <- Resource.eval(WebSocketBuilder2[F])
       _ <- unixSocketConfig.fold(
-        Concurrent[F].background(
           ServerHelpers
             .server(
               host,
@@ -205,34 +204,32 @@ final class EmberServerBuilder[F[_]: Async: Network] private (
               wsBuilder.webSocketKey,
               enableHttp2,
             )
-            .compile
-            .drain
-        )
       ) { case (unixSockets, unixSocketAddress, deleteIfExists, deleteOnClose) =>
-        ServerHelpers
-          .unixSocketServer(
-            unixSockets,
-            unixSocketAddress,
-            deleteIfExists,
-            deleteOnClose,
-            httpApp(wsBuilder),
-            tlsInfoOpt,
-            ready,
-            shutdown,
-            errorHandler,
-            onWriteFailure,
-            maxConnections,
-            receiveBufferSize,
-            maxHeaderSize,
-            requestHeaderReceiveTimeout,
-            idleTimeout,
-            logger,
-            wsBuilder.webSocketKey,
-            enableHttp2,
-          )
-          .compile
-          .drain
-          .background
+          ???
+        // ServerHelpers
+        //   .unixSocketServer(
+        //     unixSockets,
+        //     unixSocketAddress,
+        //     deleteIfExists,
+        //     deleteOnClose,
+        //     httpApp(wsBuilder),
+        //     tlsInfoOpt,
+        //     ready,
+        //     shutdown,
+        //     errorHandler,
+        //     onWriteFailure,
+        //     maxConnections,
+        //     receiveBufferSize,
+        //     maxHeaderSize,
+        //     requestHeaderReceiveTimeout,
+        //     idleTimeout,
+        //     logger,
+        //     wsBuilder.webSocketKey,
+        //     enableHttp2,
+        //   )
+        //   .compile
+        //   .drain
+        //   .background
       }
       _ <- Resource.onFinalize(shutdown.await)
       bindAddress <- Resource.eval(ready.get.rethrow)
