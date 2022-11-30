@@ -113,7 +113,7 @@ private[server] object ServerHelpers extends ServerHelpersPlatform {
             .flatMap { fiber =>
               // Close server socket to stop accepting new connections
               // Then wait for existing connections to terminate
-              Resource.onFinalize[F](fiber.join.void) >> Resource.onFinalize[F](fin)
+              Resource.onFinalize[F](fiber.cancel >> fiber.join.void) >> Resource.onFinalize[F](fin)
             }
 
         }
